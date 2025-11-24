@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logowanie</title>
+  <style>
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:#f5f7fb;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;height:100vh;padding-top:20px}
+    .card{background:#fff;padding:28px;border-radius:14px;box-shadow:0 6px 18px rgba(20,30,40,0.08);width:100%;max-width:520px;position:relative}
+    h2{margin:0 0 10px}
+    .form-field{display:flex;flex-direction:column;margin-top:14px}
+    label{font-size:13px;color:#777;margin-bottom:6px}
+    input, select{padding:10px;border-radius:8px;border:1px solid #e1e4ea}
+    .btn{margin-top:18px;width:100%;padding:12px;border-radius:10px;border:0;cursor:pointer;font-weight:600;background:#0b76ff;color:#fff}
+    .link-btn{margin-top:12px;width:100%;padding:12px;border:0;background:transparent;color:#0b76ff;cursor:pointer;font-size:14px;text-align:center}
+    .hidden{display:none}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+    .back-arrow{
+      align-self:flex-start;
+      margin-left:20px;
+      font-size:20px;
+      cursor:pointer;
+      color:#0b76ff;
+      text-decoration:none;
+      margin-bottom:10px;
+    }
+
+    .phone-field{
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    .phone-field select{width:110px;}
+    .phone-field input{flex:1;}
+    .full-width-field{grid-column: span 2;}
+    .small-muted{font-size:13px;color:#666;margin-top:8px}
+    .small-muted.error{color:#c53030}
+    .small-muted.success{color:#2d7a2d}
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-arrow">&#8592; Powrót</a>
+
+  <div class="card">
+
+    <!-- LOGOWANIE -->
+    <div id="loginBox">
+      <h2>Logowanie</h2>
+      <div class="form-field">
+        <label>Email</label>
+        <input id="loginEmail" type="email" />
+      </div>
+      <div class="form-field">
+        <label>Hasło</label>
+        <input id="loginPass" type="password" />
+      </div>
+      <button class="btn" type="button" onclick="doLogin()">Zaloguj się</button>
+      <button class="link-btn" type="button" onclick="showRegister()">Nie masz konta? Zarejestruj się</button>
+      <div id="loginMessage" class="small-muted"></div>
+    </div>
+
+    <!-- REJESTRACJA -->
+    <div id="registerBox" class="hidden">
+      <h2>Rejestracja</h2>
+
+      <div class="grid2">
+        <div class="form-field">
+          <label>Imię</label>
+          <input id="regFirst" />
+        </div>
+        <div class="form-field">
+          <label>Nazwisko</label>
+          <input id="regLast" />
+        </div>
+
+        <div class="form-field">
+          <label>Email</label>
+          <input id="regEmail" type="email" />
+        </div>
+        <div class="form-field">
+          <label>Hasło</label>
+          <input id="regPass" type="password" />
+        </div>
+
+        <div class="form-field full-width-field">
+          <label>Numer telefonu</label>
+          <div class="phone-field">
+            <select id="regCountryCode" aria-label="Kod kraju"></select>
+            <input id="regPhone" type="tel" placeholder="123 456 789" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Ulica</label>
+          <input id="regStreet" />
+        </div>
+        <div class="form-field">
+          <label>Nr domu</label>
+          <input id="regHouse" />
+        </div>
+
+        <div class="form-field">
+          <label>Nr mieszkania (opcjonalne)</label>
+          <input id="regApt" />
+        </div>
+        <div class="form-field">
+          <label>Miasto</label>
+          <input id="regCity" />
+        </div>
+
+        <div class="form-field">
+          <label>Kod pocztowy</label>
+          <input id="regPostal" />
+        </div>
+        <div class="form-field">
+          <label>Kraj</label>
+          <select id="regCountry"></select>
+        </div>
+      </div>
+
+      <button class="btn" type="button" onclick="doRegister()">Utwórz konto</button>
+      <button class="link-btn" type="button" onclick="showLogin()">Masz już konto? Zaloguj się</button>
+      <div id="registerMessage" class="small-muted"></div>
+    </div>
+
+  </div>
+
+<script>
+/* ========== Config lists (extendable) ========== */
+const countryCodes = [
+  { code: '+48', flag: '🇵🇱', name: 'Polska' }
+];
+const countries = [
+  { name: 'Polska', flag: '🇵🇱' }
+];
+
+/* ========== Helpers ========== */
+function stripEmojis(str) {
+  return str
+    .replace(/[\uD800-\uDFFF]/g, '')
+    .replace(/[\u{1F300}-\u{1F6FF}]/gu, '')
+    .replace(/[\u{1F900}-\u{1F9FF}]/gu, '')
+    .replace(/[\u{2600}-\u{26FF}]/gu, '')
+    .replace(/[\u{2700}-\u{27BF}]/gu, '');
+}
+
+function onlyDigits(str){
+  return str.replace(/\D/g,'');
+}
+
+function validName(name){
+  return /^[\p{L}\s'-]+$/u.test(name);
+}
+function validEmail(email){
+  return /\S+@\S+\.\S+/.test(email);
+}
+function showMessage(elId, msg, type){ // type: 'error' / 'success'
+  const el = document.getElementById(elId);
+  el.textContent = msg;
+  el.classList.remove('error','success');
+  if(type === 'error') el.classList.add('error');
+  if(type === 'success') el.classList.add('success');
+}
+
+/* ========== Populate selects ========== */
+const codeSelect = document.getElementById('regCountryCode');
+countryCodes.forEach(c=>{
+  const opt = document.createElement('option');
+  opt.value = c.code;              // "+48" (bez flagi)
+  opt.text = `${c.flag} ${c.code}`;
+  codeSelect.appendChild(opt);
+});
+const countrySelect = document.getElementById('regCountry');
+countries.forEach(c=>{
+  const opt = document.createElement('option');
+  opt.value = c.name;              // "Polska" (bez flagi)
+  opt.text = `${c.flag} ${c.name}`;
+  countrySelect.appendChild(opt);
+});
+
+/* ========== UI switching ========== */
+function showRegister(){
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('registerBox').style.display='block';
+  showMessage('loginMessage','');
+}
+function showLogin(){
+  document.getElementById('registerBox').style.display='none';
+  document.getElementById('loginBox').style.display='block';
+  showMessage('registerMessage','');
+}
+
+/* ========== LOGIN → JS backend ========== */
+async function doLogin(){
+  showMessage('loginMessage','');
+
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value.trim();
+
+  if(!email || !pass){
+    showMessage('loginMessage','Proszę wypełnić wszystkie pola logowania.','error');
+    return;
+  }
+  if(!validEmail(email)){
+    showMessage('loginMessage','Nieprawidłowy format email.','error');
+    return;
+  }
+
+  const payload = { email, password: pass };
+
+  try {
+    const res  = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if(json.success){
+      showMessage('loginMessage', json.message || 'Zalogowano.', 'success');
+      // np. przekierowanie:
+      // window.location.href = 'index.html';
+    } else {
+      showMessage('loginMessage', json.message || 'Błąd logowania.', 'error');
+    }
+  } catch(e){
+    console.error(e);
+    showMessage('loginMessage','Błąd sieci. Spróbuj ponownie.','error');
+  }
+}
+
+/* ========== REGISTER → JS backend ========== */
+async function doRegister(){
+  showMessage('registerMessage','');
+
+  const first     = document.getElementById('regFirst').value.trim();
+  const last      = document.getElementById('regLast').value.trim();
+  const email     = document.getElementById('regEmail').value.trim();
+  const pass      = document.getElementById('regPass').value.trim();
+  const phoneCode = document.getElementById('regCountryCode').value;
+  const phone     = document.getElementById('regPhone').value.trim();
+  const street    = document.getElementById('regStreet').value.trim();
+  const house     = document.getElementById('regHouse').value.trim();
+  const apt       = document.getElementById('regApt').value.trim();
+  const city      = document.getElementById('regCity').value.trim();
+  const postal    = document.getElementById('regPostal').value.trim();
+  const country   = document.getElementById('regCountry').value;
+
+  // required
+  const required = { first, last, email, pass, phone, phoneCode, street, house, city, postal, country };
+  for(const v of Object.values(required)){
+    if(!v){
+      showMessage('registerMessage','Proszę wypełnić wszystkie wymagane pola.','error');
+      return;
+    }
+  }
+
+  // validations
+  if(!validName(first) || !validName(last)){
+    showMessage('registerMessage','Imię i nazwisko nie mogą zawierać cyfr ani nieprawidłowych znaków.','error');
+    return;
+  }
+  if(!validEmail(email)){
+    showMessage('registerMessage','Nieprawidłowy adres email.','error');
+    return;
+  }
+  const phoneDigits = onlyDigits(phone);
+  if(phoneDigits.length < 6){
+    showMessage('registerMessage','Numer telefonu jest za krótki lub zawiera nieprawidłowe znaki.','error');
+    return;
+  }
+
+  const countryClean   = stripEmojis(country).trim();    // np. "Polska"
+  const phoneCodeClean = stripEmojis(phoneCode).trim(); // np. "+48"
+
+  const payload = {
+    first_name : first,
+    last_name  : last,
+    email      : email,
+    password   : pass,
+    phone_code : phoneCodeClean,
+    phone      : phoneDigits,
+    street     : street,
+    house      : house,
+    apartment  : apt,
+    city       : city,
+    postal     : postal,
+    country    : countryClean
+  };
+
+  try {
+    const res  = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if(json.success){
+      showMessage('registerMessage', json.message || 'Konto utworzone.', 'success');
+      // np. automatyczny powrót do logowania:
+      // showLogin();
+    } else {
+      showMessage('registerMessage', json.message || 'Błąd rejestracji.', 'error');
+    }
+  } catch(e){
+    console.error(e);
+    showMessage('registerMessage','Błąd sieci. Spróbuj ponownie.','error');
+  }
+}
+</script>
+</body>
+</html>
