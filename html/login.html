@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Logowanie</title>
+
   <style>
     body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:#f5f7fb;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;height:100vh;padding-top:20px}
     .card{background:#fff;padding:28px;border-radius:14px;box-shadow:0 6px 18px rgba(20,30,40,0.08);width:100%;max-width:520px;position:relative}
@@ -15,7 +16,6 @@
     .link-btn{margin-top:12px;width:100%;padding:12px;border:0;background:transparent;color:#0b76ff;cursor:pointer;font-size:14px;text-align:center}
     .hidden{display:none}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-
     .back-arrow{
       align-self:flex-start;
       margin-left:20px;
@@ -25,12 +25,7 @@
       text-decoration:none;
       margin-bottom:10px;
     }
-
-    .phone-field{
-      display:flex;
-      gap:6px;
-      align-items:center;
-    }
+    .phone-field{display:flex;gap:6px;align-items:center;}
     .phone-field select{width:110px;}
     .phone-field input{flex:1;}
     .full-width-field{grid-column: span 2;}
@@ -41,92 +36,90 @@
 </head>
 <body>
 
-  <a href="index.html" class="back-arrow">&#8592; Powrót</a>
+<a href="index.html" class="back-arrow">&#8592; Powrót</a>
 
-  <div class="card">
+<div class="card">
 
-    <!-- LOGOWANIE -->
-    <div id="loginBox">
-      <h2>Logowanie</h2>
+  <div id="loginBox">
+    <h2>Logowanie</h2>
+    <div class="form-field">
+      <label>Email</label>
+      <input id="loginEmail" type="email" />
+    </div>
+    <div class="form-field">
+      <label>Hasło</label>
+      <input id="loginPass" type="password" />
+    </div>
+    <button class="btn" onclick="doLogin()">Zaloguj się</button>
+    <button class="link-btn" onclick="showRegister()">Nie masz konta? Zarejestruj się</button>
+    <div id="loginMessage" class="small-muted"></div>
+  </div>
+
+  <div id="registerBox" class="hidden">
+    <h2>Rejestracja</h2>
+
+    <div class="grid2">
+      <div class="form-field">
+        <label>Imię</label>
+        <input id="regFirst" />
+      </div>
+      <div class="form-field">
+        <label>Nazwisko</label>
+        <input id="regLast" />
+      </div>
+
       <div class="form-field">
         <label>Email</label>
-        <input id="loginEmail" type="email" />
+        <input id="regEmail" type="email" />
       </div>
       <div class="form-field">
         <label>Hasło</label>
-        <input id="loginPass" type="password" />
+        <input id="regPass" type="password" />
       </div>
-      <button class="btn" type="button" onclick="doLogin()">Zaloguj się</button>
-      <button class="link-btn" type="button" onclick="showRegister()">Nie masz konta? Zarejestruj się</button>
-      <div id="loginMessage" class="small-muted"></div>
-    </div>
 
-    <!-- REJESTRACJA -->
-    <div id="registerBox" class="hidden">
-      <h2>Rejestracja</h2>
-
-      <div class="grid2">
-        <div class="form-field">
-          <label>Imię</label>
-          <input id="regFirst" />
-        </div>
-        <div class="form-field">
-          <label>Nazwisko</label>
-          <input id="regLast" />
-        </div>
-
-        <div class="form-field">
-          <label>Email</label>
-          <input id="regEmail" type="email" />
-        </div>
-        <div class="form-field">
-          <label>Hasło</label>
-          <input id="regPass" type="password" />
-        </div>
-
-        <div class="form-field full-width-field">
-          <label>Numer telefonu</label>
-          <div class="phone-field">
-            <select id="regCountryCode" aria-label="Kod kraju"></select>
-            <input id="regPhone" type="tel" placeholder="123 456 789" />
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label>Ulica</label>
-          <input id="regStreet" />
-        </div>
-        <div class="form-field">
-          <label>Nr domu</label>
-          <input id="regHouse" />
-        </div>
-
-        <div class="form-field">
-          <label>Nr mieszkania (opcjonalne)</label>
-          <input id="regApt" />
-        </div>
-        <div class="form-field">
-          <label>Miasto</label>
-          <input id="regCity" />
-        </div>
-
-        <div class="form-field">
-          <label>Kod pocztowy</label>
-          <input id="regPostal" />
-        </div>
-        <div class="form-field">
-          <label>Kraj</label>
-          <select id="regCountry"></select>
+      <div class="form-field full-width-field">
+        <label>Numer telefonu</label>
+        <div class="phone-field">
+          <select id="regCountryCode"></select>
+          <input id="regPhone" type="tel" placeholder="123 456 789" />
         </div>
       </div>
 
-      <button class="btn" type="button" onclick="doRegister()">Utwórz konto</button>
-      <button class="link-btn" type="button" onclick="showLogin()">Masz już konto? Zaloguj się</button>
-      <div id="registerMessage" class="small-muted"></div>
+      <div class="form-field">
+        <label>Ulica</label>
+        <input id="regStreet" />
+      </div>
+      <div class="form-field">
+        <label>Nr domu</label>
+        <input id="regHouse" />
+      </div>
+
+      <div class="form-field">
+        <label>Nr mieszkania (opcjonalne)</label>
+        <input id="regApt" />
+      </div>
+      <div class="form-field">
+        <label>Miasto</label>
+        <input id="regCity" />
+      </div>
+
+      <div class="form-field">
+        <label>Kod pocztowy</label>
+        <input id="regPostal" />
+      </div>
+      <div class="form-field">
+        <label>Kraj</label>
+        <select id="regCountry"></select>
+      </div>
     </div>
 
+    <button class="btn" onclick="doRegister()">Utwórz konto</button>
+    <button class="link-btn" onclick="showLogin()">Masz już konto? Zaloguj się</button>
+    <div id="registerMessage" class="small-muted"></div>
   </div>
 
-  <script src="script/login.js"></script>
+</div>
+
+<script src="script/login.js"></script>
 </body>
 </html>

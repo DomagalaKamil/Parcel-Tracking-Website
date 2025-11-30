@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wybierz paczkę</title>
+
+  <style>
+    body{
+      font-family:Inter,system-ui,Arial,sans-serif;
+      background:#f5f7fb;
+      margin:0;
+      padding:30px;
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      max-width:900px;
+      margin:0 auto;
+    }
+
+    .box{
+      background:white;
+      border-radius:14px;
+      padding:20px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+      cursor:pointer;
+      border:2px solid transparent;
+      transition:0.2s;
+    }
+
+    .box:hover{
+      border-color:#0b76ff;
+      transform:translateY(-3px);
+    }
+
+    .name{
+      font-size:20px;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .info{
+      color:#555;
+      font-size:14px;
+      line-height:1.4em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Wybierz rozmiar paczki</h2>
+
+  <div class="grid">
+
+    <div class="box" onclick="choose('XS')">
+      <div class="name">Paczka XS</div>
+      <div class="info">Do 25 kg<br>Maks: 25 × 10 × 8 cm</div>
+    </div>
+
+    <div class="box" onclick="choose('S')">
+      <div class="name">Paczka S</div>
+      <div class="info">Do 25 kg<br>Maks: 64 × 38 × 8 cm</div>
+    </div>
+
+    <div class="box" onclick="choose('M')">
+      <div class="name">Paczka M</div>
+      <div class="info">Do 25 kg<br>Maks: 64 × 38 × 15 cm</div>
+    </div>
+
+    <div class="box" onclick="choose('L')">
+      <div class="name">Paczka L</div>
+      <div class="info">Do 25 kg<br>Maks: 64 × 38 × 41 cm</div>
+    </div>
+
+    <div class="box" onclick="choose('XL')">
+      <div class="name">Paczka XL</div>
+      <div class="info">Do 30 kg<br>Maks: 80 × 60 × 40 cm</div>
+    </div>
+
+    <div class="box" onclick="choose('XXL')">
+      <div class="name">Paczka XXL</div>
+      <div class="info">Do 50 kg<br>Maks: 100 × 80 × 60 cm</div>
+    </div>
+
+  </div>
+
+  <script>
+    const sizes = {
+      XS: { kg:25, dim:"25x10x8" },
+      S:  { kg:25, dim:"64x38x8" },
+      M:  { kg:25, dim:"64x38x15" },
+      L:  { kg:25, dim:"64x38x41" },
+      XL: { kg:30, dim:"80x60x40" },
+      XXL:{ kg:50, dim:"100x80x60" }
+    };
+
+    function choose(type){
+      const data = sizes[type];
+
+      // zapisujemy automatycznie dane paczki
+      localStorage.setItem("parcel_type", type);
+      localStorage.setItem("parcel_max_kg", data.kg);
+      localStorage.setItem("parcel_max_dim", data.dim);
+
+      // przeniesienie do formularza
+      window.location.href = "parcel_form.html";
+    }
+  </script>
+
+</body>
+</html>

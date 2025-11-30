@@ -36,12 +36,14 @@
         <div class="logo">T</div>
         <div>
           <h1>SimpleParcel — demo</h1>
-          <p class="lead">Szybkie demo: Wyślij paczkę, śledź, zaloguj się.</p>
+         
         </div>
       </div>
       <div class="buttons">
-        <button class="btn" id="sendParcelBtn" type="button">Wyślij paczkę</button>
-        <a href="login.html" class="btn secondary">Zaloguj się</a>
+        <button class="btn" id="sendParcelBtn">Wyślij paczkę</button>
+
+        <div id="authArea"></div>
+
       </div>
     </div>
 
@@ -49,36 +51,29 @@
       <div>
         <div class="card">
           <h3>Wyszukaj przesyłkę</h3>
-          <p class="small">Wprowadź numer śledzenia, aby sprawdzić status (na razie demo)</p>
+          <p class="small">Wprowadź numer śledzenia, aby sprawdzić status</p>
           <div style="margin-top:12px;display:flex;gap:8px">
-            <input id="trackingSearch" placeholder="np. TRK-163254..." style="flex:1;padding:10px;border-radius:8px;border:1px solid #e6e9ee"/>
-            <button class="btn" id="searchBtn" type="button">Szukaj</button>
+            <input id="trackingSearch" placeholder="" style="flex:1;padding:10px;border-radius:8px;border:1px solid #e6e9ee"/>
+            <button class="btn" id="searchBtn">Szukaj</button>
           </div>
           <div id="searchResult" class="list"></div>
         </div>
 
         <div class="card list" style="margin-top:14px">
-          <h3>Twoje aktywne przesyłki (demo)</h3>
-          <div id="parcelList" class="small">Integrację z bazą zrobimy później 😊</div>
+          <h3>Twoje aktywne przesyłki:</h3>
+          <div id="parcelList" class="small"></div>
         </div>
       </div>
 
       <aside>
         <div class="card">
-          <h4>Instrukcja</h4>
-          <p class="small">
-            Kliknij <strong>Wyślij paczkę</strong>, aby w przyszłości tworzyć zlecenia.
-            Na razie możesz przetestować <strong>logowanie/rejestrację</strong>.
-          </p>
-          <hr style="margin:12px 0;border:none;border-top:1px solid #f1f4f8">
-          <div class="small">Techniczne</div>
-          <ul class="small">
-            <li>Front-end: HTML/CSS/JS</li>
-            <li>Back-end: Node.js (Express) + MySQL</li>
-          </ul>
+          <h4></h4>
+          <p class="small"></p>
         </div>
       </aside>
     </div>
   </div>
+
+  <script src="script/index.js"></script>
 </body>
 </html>

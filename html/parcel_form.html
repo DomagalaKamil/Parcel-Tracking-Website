@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formularz paczki</title>
+
+  <style>
+    body{
+      font-family:Inter,system-ui,Arial,sans-serif;
+      background:#f5f7fb;
+      margin:0;
+      padding:20px;
+    }
+
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .card{
+      background:white;
+      padding:20px;
+      max-width:800px;
+      margin:0 auto;
+      border-radius:14px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .section-title{
+      font-size:18px;
+      font-weight:700;
+      margin-top:25px;
+      margin-bottom:10px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+    }
+
+    label{
+      font-size:13px;
+      margin-bottom:5px;
+      color:#555;
+    }
+
+    input, select{
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #e1e4ea;
+      font-size:14px;
+    }
+
+    .summary-box{
+      background:#eef4ff;
+      border-left:4px solid #0b76ff;
+      padding:12px;
+      margin-bottom:20px;
+      border-radius:8px;
+    }
+
+    .btn{
+      background:#0b76ff;
+      width:100%;
+      padding:14px;
+      border-radius:10px;
+      border:none;
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:20px;
+    }
+
+    .small-btn {
+      padding:8px 12px;
+      background:#0b76ff;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      margin-bottom:10px;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .clear-btn {
+      padding:8px 12px;
+      background:#ccc;
+      color:#333;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      margin-top:8px;
+      font-size:13px;
+    }
+
+    .change-btn {
+      background: transparent;
+      border: 2px solid #0b76ff;
+      color: #0b76ff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .change-btn:hover {
+      background:#0b76ff;
+      color:white;
+    }
+
+    @media(max-width:700px){
+      .grid{grid-template-columns:1fr;}
+      .summary-flex{flex-direction:column;gap:10px;align-items:flex-start;}
+    }
+  </style>
+</head>
+
+
+
+<body>
+
+  <h2>Formularz nadania paczki</h2>
+
+  <div class="card">
+
+    <!-- PODSUMOWANIE PACZKI -->
+    <div class="summary-box summary-flex" style="display:flex;justify-content:space-between;align-items:center;">
+      
+      <div>
+        <div><b>Wybrany rozmiar:</b> <span id="type"></span></div>
+        <div><b>Maksymalna waga:</b> <span id="kg"></span> kg</div>
+        <div><b>Maksymalne wymiary:</b> <span id="dim"></span> cm</div>
+      </div>
+
+      <button class="change-btn" onclick="changeSize()">Zmień</button>
+
+    </div>
+
+    <script>
+      document.getElementById("type").textContent = localStorage.getItem("parcel_type");
+      document.getElementById("kg").textContent = localStorage.getItem("parcel_max_kg");
+      document.getElementById("dim").textContent = localStorage.getItem("parcel_max_dim");
+
+      function changeSize() {
+        window.location.href = "send.html";
+      }
+    </script>
+
+
+    <!-- DANE NADAWCY -->
+    <div class="section-title">Dane nadawcy</div>
+
+    <!-- BUTTON: UZUPEŁNIJ DANE UŻYTKOWNIKA -->
+    <button class="small-btn" id="btnFillSender">Użyj mojego adresu: (ładowanie...)</button>
+
+    <div class="grid">
+      <div class="field">
+        <label>Imię</label>
+        <input id="sender_name" required />
+      </div>
+      <div class="field">
+        <label>Nazwisko</label>
+        <input id="sender_lastname" required />
+      </div>
+
+      <div class="field">
+        <label>Telefon</label>
+        <input id="sender_phone" required />
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input id="sender_email" type="email" required />
+      </div>
+
+      <div class="field">
+        <label>Ulica</label>
+        <input id="sender_street" required />
+      </div>
+      <div class="field">
+        <label>Nr domu</label>
+        <input id="sender_house" required />
+      </div>
+      <div class="field">
+        <label>Kod pocztowy</label>
+        <input id="sender_postcode" required />
+      </div>
+      <div class="field">
+        <label>Miasto</label>
+        <input id="sender_city" required />
+      </div>
+      
+      <div class="field">
+        <label>Kraj</label>
+        <select id="sender_country">
+          <option value="Polska">🇵🇱 Polska</option>
+        </select>
+      </div>
+
+    </div>
+
+    <button class="clear-btn" onclick="clearSender()">Wyczyść dane nadawcy</button>
+
+
+
+    <!-- DANE ODBIORCY -->
+    <div class="section-title">Dane odbiorcy</div>
+
+    <div class="grid">
+      <div class="field">
+        <label>Imię</label>
+        <input id="recv_name" required />
+      </div>
+      <div class="field">
+        <label>Nazwisko</label>
+        <input id="recv_lastname" required />
+      </div>
+      <div class="field">
+        <label>Telefon</label>
+        <input id="recv_phone" required />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="recv_email" type="email" required />
+      </div>
+      <div class="field">
+        <label>Ulica</label>
+        <input id="recv_street" required />
+      </div>
+      <div class="field">
+        <label>Nr domu</label>
+        <input id="recv_house" required />
+      </div>
+      <div class="field">
+        <label>Kod pocztowy</label>
+        <input id="recv_postcode" required />
+      </div>
+      <div class="field">
+        <label>Miasto</label>
+        <input id="recv_city" required />
+      </div>
+      <div class="field">
+        <label>Kraj</label>
+        <select id="recv_country">
+          <option value="Polska">🇵🇱 Polska</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="clear-btn" onclick="clearReceiver()">Wyczyść dane odbiorcy</button>
+
+
+
+
+    <!-- BUTTON: WYŚLIJ PACZKĘ -->
+    <button class="btn" onclick="submitParcel()">Wyślij paczkę</button>
+
+
+
+    <script>
+
+async function loadSenderInfo() {
+  const id = localStorage.getItem("user_id");
+  if (!id) {
+    document.getElementById("btnFillSender").textContent = "Brak zalogowanego użytkownika";
+    return;
+  }
+
+  const res = await fetch(`/api/userinfo/${id}`);
+  const json = await res.json();
+
+  if (!json.success) {
+    document.getElementById("btnFillSender").textContent = "Nie można pobrać danych";
+    return;
+  }
+
+  const user = json.user;
+  const addr = json.address;
+
+  // Tekst przycisku
+  if (addr) {
+    document.getElementById("btnFillSender").textContent =
+      `Użyj mojego adresu: ${addr.firstname} ${addr.lastname}, ${addr.street} ${addr.house_number}`;
+  } else {
+    document.getElementById("btnFillSender").textContent =
+      `Użyj moich danych: ${user.firstname} ${user.lastname}`;
+  }
+
+  // Kliknięcie przycisku
+  document.getElementById("btnFillSender").onclick = () => {
+    sender_name.value      = user.firstname;
+    sender_lastname.value  = user.lastname;
+    sender_email.value     = user.email;
+    sender_phone.value     = user.phone;
+
+    if (addr) {
+      sender_street.value     = addr.street;
+      sender_house.value      = addr.house_number;
+      sender_postcode.value   = addr.postal_code;
+      sender_city.value       = addr.city;
+      sender_country.value    = addr.country;
+    }
+  };
+}
+      loadSenderInfo();
+
+
+      function clearSender() {
+        sender_name.value = "";
+        sender_lastname.value = "";
+        sender_phone.value = "";
+        sender_email.value = "";
+        sender_street.value = "";
+        sender_house.value = "";
+        sender_postcode.value = "";
+        sender_city.value = "";
+      }
+
+      function clearReceiver() {
+        recv_name.value = "";
+        recv_lastname.value = "";
+        recv_phone.value = "";
+        recv_email.value = "";
+        recv_street.value = "";
+        recv_house.value = "";
+        recv_postcode.value = "";
+        recv_city.value = "";
+      }
+
+
+      function submitParcel() {
+
+        const parcelData = {
+          type: localStorage.getItem("parcel_type"),
+          max_kg: localStorage.getItem("parcel_max_kg"),
+          max_dim: localStorage.getItem("parcel_max_dim"),
+
+          sender: {
+            name: sender_name.value,
+            last: sender_lastname.value,
+            phone: sender_phone.value,
+            email: sender_email.value,
+            street: sender_street.value,
+            house: sender_house.value,
+            postcode: sender_postcode.value,
+            city: sender_city.value,
+            country: sender_country.value
+          },
+
+          receiver: {
+            name: recv_name.value,
+            last: recv_lastname.value,
+            phone: recv_phone.value,
+            email: recv_email.value,
+            street: recv_street.value,
+            house: recv_house.value,
+            postcode: recv_postcode.value,
+            city: recv_city.value,
+            country: recv_country.value
+          }
+        };
+
+        localStorage.setItem("last_parcel", JSON.stringify(parcelData));
+
+        alert("Paczka została zgłoszona!");
+      }
+    </script>
+
+  </div>
+
+</body>
+</html>
