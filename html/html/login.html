@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <link rel="stylesheet" href="CSS/login.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logowanie</title>
+</head>
+<body>
+
+<a href="index.html" class="back-arrow">&#8592; Powrót</a>
+
+<div class="card">
+
+  <div id="loginBox">
+    <h2>Logowanie</h2>
+    <div class="form-field">
+      <label>Email</label>
+      <input id="loginEmail" type="email" />
+    </div>
+    <div class="form-field">
+      <label>Hasło</label>
+      <input id="loginPass" type="password" />
+    </div>
+    <button class="btn" onclick="doLogin()">Zaloguj się</button>
+    <button class="link-btn" onclick="showRegister()">Nie masz konta? Zarejestruj się</button>
+    <div id="loginMessage" class="small-muted"></div>
+  </div>
+
+  <div id="registerBox" class="hidden">
+    <h2>Rejestracja</h2>
+
+    <div class="grid2">
+      <div class="form-field">
+        <label>Imię</label>
+        <input id="regFirst" />
+      </div>
+      <div class="form-field">
+        <label>Nazwisko</label>
+        <input id="regLast" />
+      </div>
+
+      <div class="form-field">
+        <label>Email</label>
+        <input id="regEmail" type="email" />
+      </div>
+      <div class="form-field">
+        <label>Hasło</label>
+        <input id="regPass" type="password" />
+      </div>
+
+      <div class="form-field full-width-field">
+        <label>Numer telefonu</label>
+        <div class="phone-field">
+          <select id="regCountryCode"></select>
+          <input id="regPhone" type="tel" placeholder="123 456 789" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Ulica</label>
+        <input id="regStreet" />
+      </div>
+      <div class="form-field">
+        <label>Nr domu</label>
+        <input id="regHouse" />
+      </div>
+
+      <div class="form-field">
+        <label>Nr mieszkania (opcjonalne)</label>
+        <input id="regApt" />
+      </div>
+      <div class="form-field">
+        <label>Miasto</label>
+        <input id="regCity" />
+      </div>
+
+      <div class="form-field">
+        <label>Kod pocztowy</label>
+        <input id="regPostal" />
+      </div>
+      <div class="form-field">
+        <label>Kraj</label>
+        <select id="regCountry"></select>
+      </div>
+    </div>
+
+    <button class="btn" onclick="doRegister()">Utwórz konto</button>
+    <button class="link-btn" onclick="showLogin()">Masz już konto? Zaloguj się</button>
+    <div id="registerMessage" class="small-muted"></div>
+  </div>
+
+</div>
+
+<script src="script/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <link rel="stylesheet" href="CSS/index.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tracker - demo</title>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">T</div>
+        <div>
+          <h1>SimpleParcel — demo</h1>
+         
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="btn" id="sendParcelBtn">Wyślij paczkę</button>
+
+        <div id="authArea"></div>
+
+      </div>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h3>Wyszukaj przesyłkę</h3>
+          <p class="small">Wprowadź numer śledzenia, aby sprawdzić status</p>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <input id="trackingSearch" placeholder="" style="flex:1;padding:10px;border-radius:8px;border:1px solid #e6e9ee"/>
+            <button class="btn" id="searchBtn">Szukaj</button>
+          </div>
+          <div id="searchResult" class="list"></div>
+        </div>
+
+        <div class="card list" style="margin-top:14px">
+          <h3>Twoje aktywne przesyłki:</h3>
+          <div id="parcelList" class="small"></div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h4></h4>
+          <p class="small"></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="script/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+  body{
+    font-family:Inter,system-ui,Arial,sans-serif;
+    background:#f5f7fb;
+    margin:0;
+    padding:20px;
+  }
+
+  h2{
+    text-align:center;
+    margin-bottom:20px;
+  }
+
+  .card{
+    background:white;
+    padding:20px;
+    max-width:800px;
+    margin:0 auto;
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  }
+
+  .section-title{
+    font-size:18px;
+    font-weight:700;
+    margin-top:25px;
+    margin-bottom:10px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  .field{
+    display:flex;
+    flex-direction:column;
+  }
+
+  label{
+    font-size:13px;
+    margin-bottom:5px;
+    color:#555;
+  }
+
+  input, select{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #e1e4ea;
+    font-size:14px;
+  }
+
+  .summary-box{
+    background:#eef4ff;
+    border-left:4px solid #0b76ff;
+    padding:12px;
+    margin-bottom:20px;
+    border-radius:8px;
+  }
+
+  .btn{
+    background:#0b76ff;
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:none;
+    color:white;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:20px;
+  }
+
+  .small-btn {
+    padding:8px 12px;
+    background:#0b76ff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:10px;
+    font-size:14px;
+    font-weight:600;
+  }
+
+  .clear-btn {
+    padding:8px 12px;
+    background:#ccc;
+    color:#333;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:8px;
+    font-size:13px;
+  }
+
+  .change-btn {
+    background: transparent;
+    border: 2px solid #0b76ff;
+    color: #0b76ff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+    white-space: nowrap;
+  }
+
+  .change-btn:hover {
+    background:#0b76ff;
+    color:white;
+  }
+
+  @media(max-width:700px){
+    .grid{grid-template-columns:1fr;}
+    .summary-flex{flex-direction:column;gap:10px;align-items:flex-start;}
+  }
+
+  .back-arrow {
+    align-self: flex-start;
+    margin-left: 20px;
+    margin-bottom: 10px;
+
+    font-size: 20px;
+    color: #0b76ff;
+    text-decoration: none;
+
+    cursor: pointer;
+  }
