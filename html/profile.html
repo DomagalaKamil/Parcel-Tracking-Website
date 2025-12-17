@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mój profil</title>
+
+  <link rel="stylesheet" href="CSS/profile.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Mój profil</h1>
+
+  <form id="profileForm" class="card">
+
+    <div class="row">
+      <label>Imię</label>
+      <input type="text" id="firstname" disabled>
+    </div>
+
+    <div class="row">
+      <label>Nazwisko</label>
+      <input type="text" id="lastname" disabled>
+    </div>
+
+    <hr>
+
+    <div class="row">
+      <label>Ulica</label>
+      <input type="text" id="street" disabled>
+    </div>
+
+    <div class="row">
+      <label>Numer domu</label>
+      <input type="text" id="house_number" disabled>
+    </div>
+
+    <div class="row">
+      <label>Numer mieszkania</label>
+      <input type="text" id="apartment_number" disabled>
+    </div>
+
+    <div class="row">
+      <label>Miasto</label>
+      <input type="text" id="city" disabled>
+    </div>
+
+    <div class="row">
+      <label>Kod pocztowy</label>
+      <input type="text" id="postal_code" disabled>
+    </div>
+
+    <div class="row">
+      <label>Kraj</label>
+      <input type="text" id="country" disabled>
+    </div>
+
+    <div class="buttons">
+      <button type="button" id="editBtn" class="btn secondary">Edytuj</button>
+      <button type="submit" id="saveBtn" class="btn" disabled>Zapisz zmiany</button>
+    </div>
+
+  </form>
+</div>
+
+<script src="script/profile.js"></script>
+</body>
+</html>
