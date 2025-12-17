@@ -1,4 +1,4 @@
-/* ========== Config lists (extendable) ========== */
+
 const countryCodes = [
   { code: '+48', flag: '🇵🇱', name: 'Polska' }
 ];
@@ -6,7 +6,7 @@ const countries = [
   { name: 'Polska', flag: '🇵🇱' }
 ];
 
-/* ========== Helpers ========== */
+
 function stripEmojis(str) {
   return str
     .replace(/[\uD800-\uDFFF]/g, '')
@@ -34,7 +34,7 @@ function showMessage(elId, msg, type){
   if(type === 'success') el.classList.add('success');
 }
 
-/* ========== Populate selects ========== */
+
 const codeSelect = document.getElementById('regCountryCode');
 countryCodes.forEach(c=>{
   const opt = document.createElement('option');
@@ -42,6 +42,7 @@ countryCodes.forEach(c=>{
   opt.text = `${c.flag} ${c.code}`;
   codeSelect.appendChild(opt);
 });
+
 const countrySelect = document.getElementById('regCountry');
 countries.forEach(c=>{
   const opt = document.createElement('option');
@@ -50,19 +51,19 @@ countries.forEach(c=>{
   countrySelect.appendChild(opt);
 });
 
-/* ========== UI switching ========== */
+
 function showRegister(){
   document.getElementById('loginBox').style.display='none';
   document.getElementById('registerBox').style.display='block';
   showMessage('loginMessage','');
 }
+
 function showLogin(){
   document.getElementById('registerBox').style.display='none';
   document.getElementById('loginBox').style.display='block';
   showMessage('registerMessage','');
 }
 
-/* ========== LOGIN → backend ========== */
 async function doLogin(){
   showMessage('loginMessage','');
 
@@ -78,7 +79,10 @@ async function doLogin(){
     return;
   }
 
-  const payload = { email, password: pass };
+  const payload = { 
+    email: email, 
+    password: pass 
+  };
 
   try {
     const res  = await fetch('/api/login', {
@@ -86,19 +90,28 @@ async function doLogin(){
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+
     const json = await res.json();
-    if(json.success){
-      showMessage('loginMessage', json.message || 'Zalogowano.', 'success');
-    } else {
-      showMessage('loginMessage', json.message || 'Błąd logowania.', 'error');
+
+    if (json.success && json.user_id) {
+
+      // Save logged user ID
+      localStorage.setItem("user_id", json.user_id);
+
+      // Redirect to homepage
+      window.location.href = "index.html";
+      return;
     }
+
+    showMessage('loginMessage', json.message || 'Błąd logowania.', 'error');
+
   } catch(e){
     console.error(e);
     showMessage('loginMessage','Błąd sieci. Spróbuj ponownie.','error');
   }
 }
 
-/* ========== REGISTER → backend ========== */
+
 async function doRegister(){
   showMessage('registerMessage','');
 
@@ -115,7 +128,7 @@ async function doRegister(){
   const postal    = document.getElementById('regPostal').value.trim();
   const country   = document.getElementById('regCountry').value;
 
-  const required = { first, last, email, pass, phone, phoneCode, street, house, city, postal, country };
+  const required = { first, last, email, pass, phone, street, house, city, postal, country };
   for(const v of Object.values(required)){
     if(!v){
       showMessage('registerMessage','Proszę wypełnić wszystkie wymagane pola.','error');
@@ -131,28 +144,33 @@ async function doRegister(){
     showMessage('registerMessage','Nieprawidłowy adres email.','error');
     return;
   }
+
   const phoneDigits = onlyDigits(phone);
   if(phoneDigits.length < 6){
-    showMessage('registerMessage','Numer telefonu jest za krótki lub zawiera nieprawidłowe znaki.','error');
+    showMessage('registerMessage','Numer telefonu jest za krótki.','error');
     return;
   }
 
-  const countryClean   = stripEmojis(country).trim();
-  const phoneCodeClean = stripEmojis(phoneCode).trim();
-
+  // PAYLOAD zgodny z nową bazą MySQL
   const payload = {
-    first_name : first,
-    last_name  : last,
-    email      : email,
-    password   : pass,
-    phone_code : phoneCodeClean,
-    phone      : phoneDigits,
-    street     : street,
-    house      : house,
-    apartment  : apt,
-    city       : city,
-    postal     : postal,
-    country    : countryClean
+    user: {
+      firstname: first,
+      lastname: last,
+      email: email,
+      password: pass,                    // backend musi hashować!
+      phone: phoneCode + phoneDigits
+    },
+    address: {
+      firstname: first,
+      lastname: last,
+      street: street,
+      house_number: house,
+      apartment_number: apt,
+      city: city,
+      postal_code: postal,
+      country: country,
+      phone: phoneCode + phoneDigits
+    }
   };
 
   try {
@@ -161,14 +179,22 @@ async function doRegister(){
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+
     const json = await res.json();
-    if(json.success){
+
+    if (json.success) {
       showMessage('registerMessage', json.message || 'Konto utworzone.', 'success');
-    } else {
-      showMessage('registerMessage', json.message || 'Błąd rejestracji.', 'error');
+
+      setTimeout(() => showLogin(), 1200);
+      return;
     }
+
+    showMessage('registerMessage', json.message || 'Błąd rejestracji.', 'error');
+
   } catch(e){
     console.error(e);
     showMessage('registerMessage','Błąd sieci. Spróbuj ponownie.','error');
   }
 }
+
+console.log(req.body);
