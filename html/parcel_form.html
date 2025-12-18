@@ -1,192 +1,150 @@
 <!doctype html>
 <html lang="pl">
 <head>
-<link rel="stylesheet" href="CSS/parcel_form.css">
-<meta charset="utf-8">
-<title>Formularz paczki</title>
+  <meta charset="utf-8">
+  <title>Formularz nadania paczki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="CSS/parcel_form.css">
 </head>
 <body>
 
-   <a href="parcel_selection.html" class="back-arrow">&#8592; Powrót</a>
+<a href="parcel_selection.html" class="back-arrow">&#8592; Powrót</a>
 
 <h2>Formularz nadania paczki</h2>
 
 <div class="card">
 
-  <!-- PODSUMOWANIE PACZKI -->
-  <div class="summary-box summary-flex" style="display:flex;justify-content:space-between;align-items:center;">
+  <!-- PODSUMOWANIE WYBORU PACZKI -->
+  <div class="summary-box summary-flex">
     <div>
-      <div><b>Wybrany rozmiar:</b> <span id="type"></span></div>
-      <div><b>Maksymalna waga:</b> <span id="kg"></span> kg</div>
-      <div><b>Maksymalne wymiary:</b> <span id="dim"></span> cm</div>
-      <div><b>Cena podstawowa:</b> <span id="price"></span> PLN</div>
+      <div><b>Rozmiar:</b> <span id="type"></span></div>
+      <div><b>Maks. waga:</b> <span id="kg"></span> kg</div>
+      <div><b>Wymiary:</b> <span id="dim"></span> cm</div>
+      <div><b>Cena bazowa:</b> <span id="price"></span> PLN</div>
     </div>
-
-    <button class="change-btn" onclick="changeSize()">Zmień</button>
+    <button class="change-btn" onclick="location.href='parcel_selection.html'">
+      Zmień
+    </button>
   </div>
 
-  <script>
-    document.getElementById("type").textContent = localStorage.getItem("parcel_type");
-    document.getElementById("kg").textContent = localStorage.getItem("parcel_max_kg");
-    document.getElementById("dim").textContent = localStorage.getItem("parcel_max_dim");
-    document.getElementById("price").textContent = localStorage.getItem("parcel_price");
+  <!-- ================= KROK 1 ================= -->
+  <div class="step" id="step-1">
+    <div class="section-title">Dane nadawcy</div>
+    <button type="button" class="small-btn" id="btnFillSender">
+      Ładowanie danych...
+    </button>
 
-    function changeSize() {
-      window.location.href = "parcel_selection.html";
-    }
-  </script>
-
-
-
-  <!-- DANE NADAWCY -->
-  <div class="section-title">Dane nadawcy</div>
-
-  <button class="small-btn" id="btnFillSender">Ładowanie danych...</button>
-
-  <div class="grid">
-    <div class="field">
-      <label>Imię</label>
-      <input id="sender_name" required />
-    </div>
-    <div class="field">
-      <label>Nazwisko</label>
-      <input id="sender_lastname" required />
-    </div>
-
-    <div class="field">
-      <label>Kraj</label>
-      <select id="sender_country">
-        <option value="Polska">🇵🇱 Polska</option>
-      </select>
+    <div class="grid">
+      <div class="field"><label>Imię</label><input id="sender_name" required></div>
+      <div class="field"><label>Nazwisko</label><input id="sender_lastname" required></div>
+      <div class="field"><label>Telefon</label><input id="sender_phone" required></div>
+      <div class="field"><label>Email</label><input id="sender_email" type="email" required></div>
+      <div class="field"><label>Ulica</label><input id="sender_street" required></div>
+      <div class="field"><label>Nr domu</label><input id="sender_house" required></div>
+      <div class="field"><label>Nr mieszkania (opcjonalnie)</label><input id="sender_apartment"></div>
+      <div class="field"><label>Kod pocztowy</label><input id="sender_postcode" required></div>
+      <div class="field"><label>Miasto</label><input id="sender_city" required></div>
+      <div class="field">
+        <label>Kraj</label>
+        <select id="sender_country">
+          <option value="Polska">🇵🇱 Polska</option>
+          <option value="Niemcy">🇩🇪 Niemcy</option>
+          <option value="Czechy">🇨🇿 Czechy</option>
+          <option value="Słowacja">🇸🇰 Słowacja</option>
+        </select>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Telefon</label>
-      <input id="sender_phone" required />
-    </div>
-
-    <div class="field">
-      <label>Email</label>
-      <input id="sender_email" type="email" required />
-    </div>
-
-    <div class="field">
-      <label>Ulica</label>
-      <input id="sender_street" required />
-    </div>
-
-    <div class="field">
-      <label>Nr domu</label>
-      <input id="sender_house" required />
-    </div>
-
-    <div class="field">
-      <label>Kod pocztowy</label>
-      <input id="sender_postcode" required />
-    </div>
-
-    <div class="field">
-      <label>Miasto</label>
-      <input id="sender_city" required />
-    </div>
+    <button type="button" class="clear-btn" onclick="clearSender()">
+      Wyczyść dane nadawcy
+    </button>
   </div>
 
-  <button class="clear-btn" onclick="clearSender()">Wyczyść dane nadawcy</button>
+  <!-- ================= KROK 2 ================= -->
+  <div class="step hidden" id="step-2">
+    <div class="section-title">Dane odbiorcy</div>
 
-
-
-  <!-- DANE ODBIORCY -->
-  <div class="section-title">Dane odbiorcy</div>
-
-  <div class="grid">
-    <div class="field">
-      <label>Imię</label>
-      <input id="recv_name" required />
+    <div class="grid">
+      <div class="field"><label>Imię</label><input id="recv_name" required></div>
+      <div class="field"><label>Nazwisko</label><input id="recv_lastname" required></div>
+      <div class="field"><label>Telefon</label><input id="recv_phone" required></div>
+      <div class="field"><label>Email</label><input id="recv_email" type="email" required></div>
+      <div class="field"><label>Ulica</label><input id="recv_street" required></div>
+      <div class="field"><label>Nr domu</label><input id="recv_house" required></div>
+      <div class="field"><label>Nr mieszkania (opcjonalnie)</label><input id="recv_apartment"></div>
+      <div class="field"><label>Kod pocztowy</label><input id="recv_postcode" required></div>
+      <div class="field"><label>Miasto</label><input id="recv_city" required></div>
+      <div class="field">
+        <label>Kraj</label>
+        <select id="recv_country">
+          <option value="Polska">🇵🇱 Polska</option>
+          <option value="Niemcy">🇩🇪 Niemcy</option>
+          <option value="Czechy">🇨🇿 Czechy</option>
+          <option value="Słowacja">🇸🇰 Słowacja</option>
+        </select>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Nazwisko</label>
-      <input id="recv_lastname" required />
-    </div>
-
-    <div class="field">
-      <label>Kraj</label>
-      <select id="recv_country">
-        <option value="Polska">🇵🇱 Polska</option>
-      </select>
-    </div>
-
-    <div class="field">
-      <label>Telefon</label>
-      <input id="recv_phone" required />
-    </div>
-
-    <div class="field">
-      <label>Email</label>
-      <input id="recv_email" type="email" required />
-    </div>
-
-    <div class="field">
-      <label>Ulica</label>
-      <input id="recv_street" required />
-    </div>
-
-    <div class="field">
-      <label>Nr domu</label>
-      <input id="recv_house" required />
-    </div>
-
-    <div class="field">
-      <label>Kod pocztowy</label>
-      <input id="recv_postcode" required />
-    </div>
-
-    <div class="field">
-      <label>Miasto</label>
-      <input id="recv_city" required />
-    </div>
+    <button type="button" class="clear-btn" onclick="clearReceiver()">
+      Wyczyść dane odbiorcy
+    </button>
   </div>
 
-  <button class="clear-btn" onclick="clearReceiver()">Wyczyść dane odbiorcy</button>
-
-
-
-
-  <!-- UBEZPIECZENIE PACZKI -->
-  <div class="section-title">Ubezpieczenie paczki</div>
-
-  <div class="field">
-    <label>Czy chcesz ubezpieczyć paczkę?</label>
-
-    <div>
-      <input type="radio" name="insurance" id="ins_yes" value="yes">
-      <label for="ins_yes">Tak, chcę ubezpieczyć paczkę</label><br>
-
-      <input type="radio" name="insurance" id="ins_no" value="no" checked>
-      <label for="ins_no">Nie, nie chcę ubezpieczenia</label>
-    </div>
-  </div>
-
-  <div id="insurance_form" style="opacity:0.4; pointer-events:none; margin-top:15px;">
-    <div class="field">
-      <label>Zawartość paczki</label>
-      <input id="ins_content" placeholder="np. elektronika, szkło">
-    </div>
+  <!-- ================= KROK 3 ================= -->
+  <div class="step hidden" id="step-3">
+    <div class="section-title">Zawartość paczki</div>
 
     <div class="field">
+      <label>Co znajduje się w paczce? *</label>
+      <input id="parcel_content" required placeholder="np. ubrania, elektronika">
+    </div>
+
+    <div class="section-title">Ubezpieczenie</div>
+
+    <div class="field">
+      <input type="radio" name="insurance" id="ins_no" checked>
+      <label for="ins_no">Bez ubezpieczenia</label><br>
+      <input type="radio" name="insurance" id="ins_yes">
+      <label for="ins_yes">Ubezpieczenie przesyłki</label>
+    </div>
+
+    <div class="field hidden" id="insurance_value_box">
       <label>Wartość paczki (PLN)</label>
-      <input id="ins_value" type="number" min="1" placeholder="np. 350">
+      <input id="insurance_value" type="number" min="1">
+
+      <div class="small" style="margin-top:6px">
+        Koszt ubezpieczenia:
+        <b><span id="insurance_price">7.99</span> PLN</b>
+      </div>
     </div>
   </div>
 
+  <!-- ================= KROK 4 ================= -->
+  <div class="step hidden" id="step-4">
+    <div class="section-title">Podsumowanie</div>
+    <div id="summaryBox" class="summary-box"></div>
+  </div>
 
+  <!-- ================= KOSZT STAŁY ================= -->
+  <div class="summary-box" style="margin-top:20px">
+    <b>Koszt nadania łącznie:</b>
+    <span style="float:right">
+      <b><span id="total_price">0.00</span> PLN</b>
+    </span>
+  </div>
 
-  <!-- WYŚLIJ PACZKĘ -->
-  <button class="btn" onclick="submitParcel()">Wyślij paczkę</button>
+  <!-- ================= NAWIGACJA ================= -->
+  <div class="buttons">
+    <button type="button" class="btn secondary" id="prevBtn" disabled>
+      Wstecz
+    </button>
+    <button type="button" class="btn" id="nextBtn">
+      Dalej
+    </button>
+  </div>
 
 </div>
 
-<script src="script/parcel_form.js"></scriptsrc>> </script>
-
+<script src="script/parcel_form.js"></script>
 </body>
 </html>

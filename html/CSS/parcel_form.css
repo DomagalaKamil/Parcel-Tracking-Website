@@ -126,3 +126,13 @@
 
     cursor: pointer;
   }
+
+  .hidden {
+  display: none;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
